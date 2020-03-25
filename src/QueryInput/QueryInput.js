@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 
 const QueryInput = (props) => {
+
+  const [queryInputRef, setqueryInputRef] = useState(null);
 
   return (
 
@@ -12,9 +14,14 @@ const QueryInput = (props) => {
         placeholder="Cypher statement"
         aria-label="Cypher statement"
         aria-describedby="basic-addon2"
+        ref={ref => { setqueryInputRef(ref) }}
       />
       <InputGroup.Append>
-        <Button variant="outline-secondary">Query</Button>
+        <Button
+        onClick= {() => props.submit(queryInputRef.value)}
+        variant="outline-secondary">
+          Query
+        </Button>
       </InputGroup.Append>
     </InputGroup>
 
