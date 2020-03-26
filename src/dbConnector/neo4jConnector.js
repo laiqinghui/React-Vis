@@ -34,7 +34,7 @@ class Neo4jConnector {
             Parameters:
                 1) cypher (string) - Database query statement
         */
-        console.log(this.AUTHORIZATION);
+   
         const auth = {
             headers:{
                 Authorization: this.AUTHORIZATION
@@ -52,11 +52,7 @@ class Neo4jConnector {
         };
 
         // var strData = JSON.stringify(cypherobj);
-        const url = "http" + "://" + this.hostname + ":" + this.port + "/db/data/transaction/commit";
-        console.log(url);
-        console.log("HELLO");
-        
-        
+        const url = "http://" + this.hostname + ":" + this.port + "/db/data/transaction/commit";
 
         return (
             new Promise((resolve, reject) => {
@@ -78,11 +74,6 @@ class Neo4jConnector {
     dbToVisDataParser = data => {
 
         // User defined data conversion logic to convert database data format to Vis.js propriety format.
-
-        console.log("dbdata: ");
-        console.log(data);
-        console.log("data.results: ");
-        console.log(data.results);
 
         const nodes = {}, edges = {};
         data.results[0].data.forEach(function (row) {

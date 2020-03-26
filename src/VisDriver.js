@@ -44,7 +44,7 @@ class VisDriver{
             physics: {
                 enabled: true,
                 forceAtlas2Based: {
-                    theta: 0.5,
+                    // theta: 0.5,
                     gravitationalConstant: -50,
                     centralGravity: 0.01,
                     springConstant: 0.08,
@@ -65,12 +65,12 @@ class VisDriver{
                 },
                 timestep: 0.3,
                 adaptiveTimestep: true,
-                wind: { x: 0, y: 0 }
+                // wind: { x: 0, y: 0 }
             },
             layout: {
                 randomSeed: undefined,
                 improvedLayout:true,
-                //clusterThreshold: 150
+                clusterThreshold: 150
             }
 
 
@@ -105,8 +105,6 @@ class VisDriver{
         // Node id which graph should be focus on, user can set it when setting the data state
         this.focusNodeId = null;
         this.network = visRef;
-        console.log("visRef: ");
-        console.log(visRef)
 
     }// end of constructor
 
@@ -349,14 +347,12 @@ class VisDriver{
             2) selectednodeid (string) - Optional ID of a node with is to be focus on after graph rendering
         */
 
-        var query = queryStatement;
-        var self = this;
+        this.dbconnector.query(queryStatement)
+            .then( data => {
 
-        this.dbconnector.query(queryStatement).done(function (data) {
-
-            var visData = self.dataParser(data);
-            visData = self.setNodesColorAndSize(visData);
-            self.updateGraphData(visData, selectednodeid);
+                var visData = this.dataParser(data);
+                visData = this.setNodesColorAndSize(visData);
+                this.updateGraphData(visData, selectednodeid);
 
             });
 
@@ -385,11 +381,11 @@ class VisDriver{
 
     setNodesColorAndSize = data => {
 
-        console.log(data)
+        
         data.nodes.forEach((node, index, nodes) => {
 
-            nodes[index].color = this.nodeOptions.nodesColorMap[node.nodeLabel];
-            nodes[index].value = this.nodeOptions.nodeSizeMap[node.nodeLabel];
+            nodes[index].color = this.nodeOptions.nodesColorMap[node.dblabel];
+            nodes[index].value = this.nodeOptions.nodeSizeMap[node.dblabel];
 
         });
 

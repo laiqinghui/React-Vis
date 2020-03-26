@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import neo4jConnector from '../dbConnector/neo4jConnector';
 
-import HeaderNavBar from '../HeaderNavBar/HeaderNavBar'
-import QueryInput from '../QueryInput/QueryInput'
-import VisGraph from '../VisGraph/VisGraph'
-import DetailsCard from '../DetailsCard/DetailsCard'
+import HeaderNavBar from '../components/HeaderNavBar/HeaderNavBar'
+import QueryInput from '../components/QueryInput/QueryInput'
+import VisGraph from '../components/VisGraph/VisGraph'
+import DetailsCard from '../components/DetailsCard/DetailsCard'
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
