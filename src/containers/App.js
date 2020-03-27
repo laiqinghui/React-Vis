@@ -50,10 +50,6 @@ class App extends Component {
         this.setState({queryStatement: query});
     }
 
-    selectNodeEdgeHandler = (id, data) => {
-
-    }
-
     render() {
     return (
         <div className="App">

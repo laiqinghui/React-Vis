@@ -26,8 +26,16 @@ class VisGraph extends Component {
 
         if (this.props.queryStatement !== this.state.prevQuery) {
 
-            this.visDriver.reloadGraph(this.props.queryStatement);
-            this.setState({prevQuery: this.props.queryStatement})
+            this.visDriver.reloadGraph(this.props.queryStatement)
+                .then(graphData => {
+                    this.props.updategraphDataState(this.visDriver.data);
+                })
+                .catch(errorResponse => {
+                    console.log("Failed in connecting to database")
+                    console.log(errorResponse)
+                })
+            this.setState({prevQuery: this.props.queryStatement});
+            
 ;
         }
 

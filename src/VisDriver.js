@@ -1,10 +1,10 @@
- //--------------------------------------------------Vis Driver Class--------------------------------------------------------------------
-    /*
-        This class handles all the logic that bridges user applications and user defined data base to Vis.js
-    */
-class VisDriver{
+//--------------------------------------------------Vis Driver Class--------------------------------------------------------------------
+/*
+    This class handles all the logic that bridges user applications and user defined data base to Vis.js
+*/
+class VisDriver {
 
-    constructor  (visRef, dbconnector, filterFunction, nodeOptions) {
+    constructor(visRef, dbconnector, filterFunction, nodeOptions) {
 
         /* 
             Constructor for the VisDriver class.
@@ -22,13 +22,13 @@ class VisDriver{
         this.dataFilter = filterFunction;
         this.nodeOptions = nodeOptions
         // House the state of pre-filtered data which is to be rendered
-        this.data = { 
+        this.data = {
             nodes: [],
             edges: []
         }
         // Option to define the physics prperties if physics is turn on
         this.physicsOnOpt = {
-            nodes:{
+            nodes: {
                 scaling: {
                     min: 1,
                     max: 3,//3
@@ -39,7 +39,7 @@ class VisDriver{
                         maxVisible: 20,
                         drawThreshold: 5
                     },
-                }  
+                }
             },
             physics: {
                 enabled: true,
@@ -52,16 +52,16 @@ class VisDriver{
                     damping: 0.4,
                     avoidOverlap: 1
                 },
-                
+
                 maxVelocity: 50,
                 minVelocity: 0.1,
                 solver: 'forceAtlas2Based',
                 stabilization: {
-                enabled: true,
-                iterations: 500,
-                updateInterval: 10,
-                onlyDynamicEdges: false,
-                fit: false
+                    enabled: true,
+                    iterations: 500,
+                    updateInterval: 10,
+                    onlyDynamicEdges: false,
+                    fit: false
                 },
                 timestep: 0.3,
                 adaptiveTimestep: true,
@@ -69,16 +69,16 @@ class VisDriver{
             },
             layout: {
                 randomSeed: undefined,
-                improvedLayout:true,
+                improvedLayout: true,
                 clusterThreshold: 150
             }
 
 
         };// end of physics on options
         // Turn off physics
-        this.physicsOffOpt = { 
-            
-            nodes:{
+        this.physicsOffOpt = {
+
+            nodes: {
                 scaling: {
                     min: 1,
                     max: 3,
@@ -89,14 +89,14 @@ class VisDriver{
                         maxVisible: 10,
                         drawThreshold: 5
                     },
-                }  
+                }
             },
             physics: {
                 enabled: false,
             },
             layout: {
                 randomSeed: undefined,
-                improvedLayout:true,
+                improvedLayout: true,
                 //clusterThreshold: 150
             }
 
@@ -139,7 +139,7 @@ class VisDriver{
         let prevpositions = this.network.getPositions();
         let filteredData = null;
 
-        if (prevpositions.length > 0){
+        if (prevpositions.length > 0) {
 
             // Preserve nodes coordinates for redrawing them on same position
             for (let i = 0; i < this.data["nodes"].length; i++) {
@@ -152,48 +152,48 @@ class VisDriver{
 
         }
 
-        if (this.dataFilter != null){
+        if (this.dataFilter != null) {
 
             filteredData = this.dataFilter(this.data);
             this.network.setData(filteredData);
             // console.log("filteredData: ");
             // console.log(filteredData);
 
-        } else{
+        } else {
 
             this.network.setData(this.data);
         }
-            
+
         // Turn on physics for stabilization animation
         this.network.setOptions(this.physicsOnOpt);
 
         setTimeout(() => {
 
             this.network.setOptions(this.physicsOffOpt);
-            
-            if (this.focusNodeId !== null){
+
+            if (this.focusNodeId !== null) {
 
                 this.network.focus(this.focusNodeId, {
                     scale: 1.5,
                     locked: false,
-                    animation: { 
+                    animation: {
                         duration: 1000,
                         easingFunction: "easeOutQuad"
                     }
-                    });
+                });
 
-                    this.network.selectNodes([this.focusNodeId], true);
+                this.network.selectNodes([this.focusNodeId], true);
 
             }
-                
+
         }, 1000)
-        
+
 
     }// end of setAndRenderGraphData
 
     updateGraphData = (data, focusNodeId) => {
 
-        
+
         /* 
             Function to update the current data state which will be use for filtering. 
             User can choose whether to focus the camera on a specific node after the graph renders by specifying a node id.
@@ -205,7 +205,7 @@ class VisDriver{
             1) data (object) - Data object in the Vis format consisting of nodes and edges which are to be added to the existing graph
             2) focusNodeId (string) - id of node to be focus on in string format, use if the graph is to be focus on a particular node
         */
-        
+
 
         const distfromselectednodepos = 500;
         const newNodes = data["nodes"]
@@ -214,20 +214,20 @@ class VisDriver{
         let randangle, newx, newy, selectednodepos, currentViewPosition;
 
         // Get coordinates of node to be focus on
-        if(focusNodeId != null)
+        if (focusNodeId != null)
             selectednodepos = this.network.getPositions(focusNodeId);
 
 
         // Skip the process of checking for existing nodes coordinates as there is no existing nodes (clean canvas)
-        if(this.data["nodes"].length === 0){
-            
-            for(let i = 0; i < newNodes.length; i++)
+        if (this.data["nodes"].length === 0) {
+
+            for (let i = 0; i < newNodes.length; i++)
                 this.data["nodes"].push(newNodes[i]);
 
-            for(let i = 0; i < newEdges.length; i++)
+            for (let i = 0; i < newEdges.length; i++)
                 this.data["edges"].push(newEdges[i]);
 
-                this.setAndRenderGraphData();
+            this.setAndRenderGraphData();
 
             return;
 
@@ -238,7 +238,7 @@ class VisDriver{
 
             for (let j = 0; j < this.data["nodes"].length; j++) {
 
-                if (this.data["nodes"][j]["id"] === newNodes[i]["id"]){
+                if (this.data["nodes"][j]["id"] === newNodes[i]["id"]) {
                     exist = true;
                     break;
                 }
@@ -246,14 +246,14 @@ class VisDriver{
             }
 
             // Insert nodes only if the node does not exist in the rendered graph
-            if (exist === false){
+            if (exist === false) {
 
                 // set rendered position to a set distance from a selected node, of a random angle
-                if (focusNodeId != null){
+                if (focusNodeId != null) {
 
-                    randangle = Number((Math.random() * (0 - 2*Math.PI) + 2*Math.PI).toFixed(4));
-                    newx = distfromselectednodepos*Math.cos(randangle) + selectednodepos[Number(focusNodeId)].x;
-                    newy = distfromselectednodepos*Math.sin(randangle) + selectednodepos[Number(focusNodeId)].y;
+                    randangle = Number((Math.random() * (0 - 2 * Math.PI) + 2 * Math.PI).toFixed(4));
+                    newx = distfromselectednodepos * Math.cos(randangle) + selectednodepos[Number(focusNodeId)].x;
+                    newy = distfromselectednodepos * Math.sin(randangle) + selectednodepos[Number(focusNodeId)].y;
                     newNodes[i]["x"] = newx;
                     newNodes[i]["y"] = newy;
 
@@ -269,37 +269,37 @@ class VisDriver{
                 // append new node into current state data
                 this.data["nodes"].push(newNodes[i])
 
-            } 
-            
+            }
+
             exist = false;
 
         }
 
         // Add new edges 
-        for(let i = 0; i < newEdges.length; i++){
+        for (let i = 0; i < newEdges.length; i++) {
 
             for (let j = 0; j < this.data["edges"].length; j++) {
 
-                if (this.data["edges"][j]["id"] === newEdges[i]["id"]){
+                if (this.data["edges"][j]["id"] === newEdges[i]["id"]) {
                     exist = true;
                     break;
                 }
 
             }
-            if(exist === false)
+            if (exist === false)
                 this.data["edges"].push(newEdges[i]);
 
         }
 
         this.setAndRenderGraphData()
 
-        if (focusNodeId != null){
+        if (focusNodeId != null) {
 
             // Focus on the double-clicked node
             this.focusNodeId = focusNodeId;
-    
 
-        } else{
+
+        } else {
 
             // Focus on the newly added node from text query
             this.focusNodeId = newNodes[0].id.toString();
@@ -316,25 +316,32 @@ class VisDriver{
             Parameters:
             1) querystatement (string) - Data base specific query string
         */
-        
-        // Preserve the scope of VisDriver object for use in callbacks
+        return (
+            new Promise((resolve, reject) => {
 
-        this.dbconnector.query(querystatement)
-            .then(data => {
+                this.dbconnector.query(querystatement)
+                    .then(data => {
 
-                this.data = this.dataParser(data);
-                this.data = this.setNodesColorAndSize(this.data);
-                this.focusNodeId = null;
-                this.setAndRenderGraphData();
-                
-                this.network.fit({
-                    animation: {
-                    duration: 1000,
-                    easingFunction: "linear"
-                    }
-                });
-            });
-        
+                        this.data = this.setNodesColorAndSize(this.dataParser(data));
+                        resolve(this.data);
+                        this.focusNodeId = null;
+                        this.setAndRenderGraphData();
+
+                        this.network.fit({
+                            animation: {
+                                duration: 1000,
+                                easingFunction: "linear"
+                            }
+                        });
+                    })
+                    .catch(errorResponse => reject(errorResponse))
+
+            })
+        )
+
+
+
+
     }// end of reloadGraph
 
     updateGraph = (queryStatement, selectednodeid) => {
@@ -348,7 +355,7 @@ class VisDriver{
         */
 
         this.dbconnector.query(queryStatement)
-            .then( data => {
+            .then(data => {
 
                 var visData = this.dataParser(data);
                 visData = this.setNodesColorAndSize(visData);
@@ -367,7 +374,7 @@ class VisDriver{
 
             for (let j = 0; j < this.data["nodes"].length; j++) {
 
-                if (this.data["nodes"][j]["id"] === nodes[i]["id"]){
+                if (this.data["nodes"][j]["id"] === nodes[i]["id"]) {
                     this.data["nodes"][j]["x"] = nodes[i]["id"]["x"];
                     break;
                 }
@@ -381,7 +388,7 @@ class VisDriver{
 
     setNodesColorAndSize = data => {
 
-        
+
         data.nodes.forEach((node, index, nodes) => {
 
             nodes[index].color = this.nodeOptions.nodesColorMap[node.dblabel];
@@ -396,5 +403,5 @@ class VisDriver{
 
 export default VisDriver;
 
-        
+
         //--------------------------------------------------------------------------------------------------------------------------------------

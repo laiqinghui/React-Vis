@@ -51,7 +51,6 @@ class Neo4jConnector {
             ]
         };
 
-        // var strData = JSON.stringify(cypherobj);
         const url = "http://" + this.hostname + ":" + this.port + "/db/data/transaction/commit";
 
         return (
