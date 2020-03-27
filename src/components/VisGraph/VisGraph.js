@@ -11,7 +11,7 @@ class VisGraph extends Component {
     visRef = null;
 
     state = {
-        prevQuery: null
+
     }
 
     componentDidMount() {
@@ -20,21 +20,46 @@ class VisGraph extends Component {
 
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
 
         console.log("[VisGraph] updated")
 
-        if (this.props.queryStatement !== this.state.prevQuery) {
+        // Include this check incase there is added internal states in the future
+        if (this.props.query !== prevProps.query) {
 
-            this.visDriver.reloadGraph(this.props.queryStatement)
+            if (this.props.query.type === 'reload'){
+
+                this.visDriver.reloadGraph(this.props.query.queryStatement)
                 .then(graphData => {
-                    this.props.updategraphDataState(this.visDriver.data);
+
+                    this.props.updategraphDataState(graphData);
+
                 })
                 .catch(errorResponse => {
+
                     console.log("Failed in connecting to database")
                     console.log(errorResponse)
+
+                })    
+
+            } else if(this.props.query.type === 'update'){
+
+                this.visDriver.updateGraph(this.props.query.queryStatement, null)
+                .then(graphData => {
+
+                    this.props.updategraphDataState(graphData);
+
                 })
-            this.setState({prevQuery: this.props.queryStatement});
+                .catch(errorResponse => {
+
+                    console.log("Failed in connecting to database")
+                    console.log(errorResponse)
+
+                })    
+
+
+            }
+
             
 ;
         }
@@ -55,7 +80,6 @@ class VisGraph extends Component {
         }
     };
 
-
     render() {
         return (
             <Graph
@@ -63,7 +87,6 @@ class VisGraph extends Component {
                     nodes: [],
                     edges: []
                 } }
-                //options={this.options}
                 events={this.events}
                 // style={style}
                 getEdges={this.getEdges}
@@ -78,14 +101,14 @@ class VisGraph extends Component {
 }
 
 
-const mapStateToProps = state => {
-    return {
+// const mapStateToProps = state => {
+//     return {
 
-        selectedElementProp: state.graph.selectedElement,
-        graphDataProp: state.graph.graphData
+//         selectedElementProp: state.graph.selectedElement,
+//         graphDataProp: state.graph.graphData
 
-    }
-};
+//     }
+// };
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -94,6 +117,6 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(VisGraph);
+export default connect(null, mapDispatchToProps)(VisGraph);
 
 

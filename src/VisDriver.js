@@ -202,8 +202,8 @@ class VisDriver {
 
 
             Parameters:
-            1) data (object) - Data object in the Vis format consisting of nodes and edges which are to be added to the existing graph
-            2) focusNodeId (string) - id of node to be focus on in string format, use if the graph is to be focus on a particular node
+                1) data (object) - Data object in the Vis format consisting of nodes and edges which are to be added to the existing graph
+                2) focusNodeId (string) - id of node to be focus on in string format, use if the graph is to be focus on a particular node
         */
 
 
@@ -311,10 +311,15 @@ class VisDriver {
     reloadGraph = querystatement => {
 
         /* 
-            Function to directly overwrite graph with results return from a database query.
+            Function to directly overwrite graph with results return from a database query. Wrapped a async operation, 
+            therefore implements and return a promise.
 
             Parameters:
-            1) querystatement (string) - Data base specific query string
+                1) The database specific query statement to be execute by the database connector
+
+            Return:
+                Promise object which resolves after a successful operation by the dbconnector (after db query operation resolves).
+                The user defined callback function with the graph data passed in as argument is called when the data is ready. 
         */
         return (
             new Promise((resolve, reject) => {
@@ -334,7 +339,7 @@ class VisDriver {
                             }
                         });
                     })
-                    .catch(errorResponse => reject(errorResponse))
+                    .catch(errorResponse => reject(errorResponse));
 
             })
         )
@@ -347,22 +352,33 @@ class VisDriver {
     updateGraph = (queryStatement, selectednodeid) => {
 
         /* 
-            Function to update (add to existing) graph with results return from a database query.
+            Function to update (add to existing) graph with results return from a database query. Wrapped a async operation, 
+            therefore implements and return a promise.
 
             Parameters:
-            1) querystatement (string) - Data base specific query string
-            2) selectednodeid (string) - Optional ID of a node with is to be focus on after graph rendering
+                1) querystatement (string) - Data base specific query string
+                2) selectednodeid (string) - Optional ID of a node with is to be focus on after graph rendering
+
+            Return:
+                Promise object which resolves after a successful operation by the dbconnector (after db query operation resolves).
+                The user defined callback function with the graph data passed in as argument is called when the data is ready. 
         */
 
-        this.dbconnector.query(queryStatement)
-            .then(data => {
+        return (
+            new Promise((resolve, reject) => {
 
-                var visData = this.dataParser(data);
-                visData = this.setNodesColorAndSize(visData);
-                this.updateGraphData(visData, selectednodeid);
+                this.dbconnector.query(queryStatement)
+                    .then(data => {
 
-            });
+                        let visData = this.setNodesColorAndSize(this.dataParser(data));
+                        this.updateGraphData(visData, selectednodeid);
+                        resolve(this.data)
 
+                    })
+                    .catch(errorResponse => reject(errorResponse));
+
+            })
+        )
 
     }// end of updateGraph
 
