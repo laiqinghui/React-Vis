@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Graph from 'react-graph-vis'
 import visDriver from '../../VisDriver'
+import {cloneDeep} from 'lodash'
 import * as actionCreators from '../../store/actions/actions';
 
 
@@ -70,13 +71,52 @@ class VisGraph extends Component {
     events = {
         select: event => {
             console.log("Selected!");
-            var { nodes, edges } = event;
-            console.log(nodes);
-            console.log(edges);
-            this.props.updateSelectedElementState({
-                id: nodes[0],
-                type: "node"
-            })
+            let { nodes, edges } = event;
+
+            if (nodes.length > 0){
+
+                this.props.updateSelectedElementState({
+                    id: nodes[0],
+                    type: "node"
+                })
+
+            } else if(edges.length > 0){
+
+                this.props.updateSelectedElementState({
+                    id: edges[0],
+                    type: "edge"
+                })
+
+            } else {
+
+                this.props.updateSelectedElementState({
+                    id: null,
+                    type: null
+                })
+
+            }
+        },
+        doubleClick: event => {
+
+            let { nodes } = event;
+
+            if (nodes.length > 0){
+
+                let query = this.props.dbConnector.genQueryStatementByID(nodes[0]);
+                this.visDriver.updateGraph(query, nodes[0]).then(graphData => {
+
+                    this.props.updategraphDataState(graphData);
+
+                })
+                .catch(errorResponse => {
+
+                    console.log("Failed in connecting to database")
+                    console.log(errorResponse)
+
+                })    
+
+            }
+
         }
     };
 
@@ -112,8 +152,9 @@ class VisGraph extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateSelectedElementState: (selectedElement) => dispatch(actionCreators.updateSelectedElement(selectedElement)),
-        updategraphDataState: (graphData) => dispatch(actionCreators.updateGraphData(graphData))
+        // Pass in deep clones of objects as we don't want reducers to work with the original objects
+        updateSelectedElementState: (selectedElement) => dispatch(actionCreators.updateSelectedElement(cloneDeep(selectedElement))),
+        updategraphDataState: (graphData) => dispatch(actionCreators.updateGraphData(cloneDeep(graphData)))
     }
 };
 

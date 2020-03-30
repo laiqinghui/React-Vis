@@ -132,9 +132,6 @@ class VisDriver {
             instance variable with a node id.
         */
 
-        console.log("this.data: ");
-        console.log(this.data);
-
         let key = -1;
         let prevpositions = this.network.getPositions();
         let filteredData = null;
@@ -208,8 +205,8 @@ class VisDriver {
 
 
         const distfromselectednodepos = 500;
-        const newNodes = data["nodes"]
-        const newEdges = data["edges"]
+        let newNodes = data["nodes"]
+        let newEdges = data["edges"]
         let exist = false;
         let randangle, newx, newy, selectednodepos, currentViewPosition;
 
@@ -234,7 +231,8 @@ class VisDriver {
         }
 
         // Add new nodes to exisitng library of nodes
-        for (let i = 0; i < newNodes.length; i++) {
+        let i = 0;
+        for (i; i < newNodes.length; i++) {
 
             for (let j = 0; j < this.data["nodes"].length; j++) {
 
@@ -267,7 +265,7 @@ class VisDriver {
                 }
 
                 // append new node into current state data
-                this.data["nodes"].push(newNodes[i])
+                this.data["nodes"].push(newNodes[i]);
 
             }
 
@@ -276,7 +274,8 @@ class VisDriver {
         }
 
         // Add new edges 
-        for (let i = 0; i < newEdges.length; i++) {
+        i = 0;
+        for (i; i < newEdges.length; i++) {
 
             for (let j = 0; j < this.data["edges"].length; j++) {
 
@@ -385,8 +384,8 @@ class VisDriver {
     updateNodesPosition = nodes => {
 
         // Not used: KIV
-
-        for (let i = 0; i < nodes.length; i++) {
+        let i = 0;
+        for (i; i < nodes.length; i++) {
 
             for (let j = 0; j < this.data["nodes"].length; j++) {
 

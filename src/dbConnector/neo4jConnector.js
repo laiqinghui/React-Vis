@@ -87,7 +87,7 @@ class Neo4jConnector {
         */
 
 
-        const nodes = {}, edges = {};
+        let nodes = {}, edges = {};
         data.results[0].data.forEach(function (row) {
 
             row.graph.nodes.forEach(function (n) {
@@ -211,7 +211,7 @@ class Neo4jConnector {
                 Database specific query statement
         */
 
-        return "MATCH (n) WHERE id(n) = " + id + " RETURN n"
+        return "MATCH (n)-[r]-(p) WHERE id(n) = " + id + " RETURN n, r, p"
 
     }
 

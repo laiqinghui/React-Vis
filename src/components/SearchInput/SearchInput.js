@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -56,7 +55,8 @@ class SearchInput extends Component {
     optOnSelectHandler = (event, value) => {
 
         console.log("Selected: " + value);
-        this.props.select(value["id(node)"]);
+        if (value != null)
+            this.props.select(value["id(node)"]);
 
     }
 
@@ -66,7 +66,7 @@ class SearchInput extends Component {
 
             <Autocomplete
                 id="asynchronous-demo"
-                style={{ width: "100%" }}
+                style={{ width: "100%", paddingTop: "10px" }}
                 onChange={this.optOnSelectHandler}
                 open={this.state.open}
                 onOpen={() => {
