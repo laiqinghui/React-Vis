@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 const QueryInput = (props) => {
 
-    const [queryInputRef, setqueryInputRef] = useState(null);
+    const [queryVal, setQueryVal] = useState("");
 
     return (
 
@@ -25,20 +25,27 @@ const QueryInput = (props) => {
         //   </InputGroup.Append>
         // </InputGroup>
 
-        <Row>
+        <Row noGutters>
             <Col xs={11}>
-            <TextField
+                <TextField
                     style={{ width: "100%" }}
                     id="filled-textarea"
                     label="Database query"
                     // placeholder="Placeholder"
+                    onChange = {event=>setQueryVal(event.target.value)}
+                    multiline
+                    rows={2}
+                    rowsMax={2}
                     variant="outlined"
                 />
             </Col>
-            <Col>
-            <Button
-                    style={{ width: "100%" }}
-                    variant="contained">
+            <Col xs={1}>
+                <Button
+                    style ={{ width: "100%", height: "100%" }}
+                    variant ="outlined"
+                    onClick = {() => props.submit(queryVal)}
+                    disabled = {queryVal.length === 0} 
+                    >
                     Query
                 </Button>
             </Col>

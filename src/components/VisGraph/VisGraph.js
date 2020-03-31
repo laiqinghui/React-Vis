@@ -102,7 +102,7 @@ class VisGraph extends Component {
 
             if (nodes.length > 0){
 
-                let query = this.props.dbConnector.genQueryStatementByID(nodes[0]);
+                let query = this.props.dbConnector.genQueryStatementByID(nodes[0], true);
                 this.visDriver.updateGraph(query, nodes[0]).then(graphData => {
 
                     this.props.updategraphDataState(graphData);
@@ -128,7 +128,7 @@ class VisGraph extends Component {
                     edges: []
                 } }
                 events={this.events}
-                // style={style}
+                style={{"backgroundColor": "#F8F9FB", "border": "1px solid lightgray", "height": "650px"}}
                 getEdges={this.getEdges}
                 getNodes={this.getNodes}
                 getNetwork={network => {

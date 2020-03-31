@@ -21,9 +21,6 @@ class Neo4jConnector {
         this.port = port;
 
 
-
-
-
     }
 
     query = cypher => {
@@ -199,19 +196,20 @@ class Neo4jConnector {
     }
 
 
-    genQueryStatementByID = id => {
+    genQueryStatementByID = (id, edges) => {
 
         /* 
             Generates database specific query statement from node ID
 
             Parameters:
                 1) id (string) - Node id
+                2) edges (boolean) - Set to true if edges connected to node are to be return
 
             Return:
                 Database specific query statement
         */
 
-        return "MATCH (n)-[r]-(p) WHERE id(n) = " + id + " RETURN n, r, p"
+        return  edges ? "MATCH (n)-[r]-(p) WHERE id(n) = " + id + " RETURN n, r, p" : "MATCH (n) WHERE id(n) = " + id + " RETURN n"
 
     }
 

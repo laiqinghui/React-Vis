@@ -91,7 +91,7 @@ class DetailsCard extends Component {
         }
 
         return (
-            <Card style={{ width: '100%' }}>
+            <Card style={{ width: '100%', height: '100%' }}>
                 <Card.Header as="h5">Details</Card.Header>
                 {content}
             </Card>

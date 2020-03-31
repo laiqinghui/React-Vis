@@ -17,7 +17,7 @@ class SearchInput extends Component {
 
     componentDidUpdate() {
 
-        console.log("[SearchInput] updated")
+        //console.log("[SearchInput] updated")
       
 
     }
@@ -27,7 +27,6 @@ class SearchInput extends Component {
         let graphDataObj = {};
         let graphDataArray = [];
 
-        console.log(event.target.value)
         if(event.target.value === ""){
             this.setState({loading: false});
         } else{
@@ -65,8 +64,7 @@ class SearchInput extends Component {
         return (
 
             <Autocomplete
-                id="asynchronous-demo"
-                style={{ width: "100%", paddingTop: "10px" }}
+                style={{ width: "100%"}}
                 onChange={this.optOnSelectHandler}
                 open={this.state.open}
                 onOpen={() => {

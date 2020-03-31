@@ -231,8 +231,7 @@ class VisDriver {
         }
 
         // Add new nodes to exisitng library of nodes
-        let i = 0;
-        for (i; i < newNodes.length; i++) {
+        for (let i = 0; i < newNodes.length; i++) {
 
             for (let j = 0; j < this.data["nodes"].length; j++) {
 
@@ -274,8 +273,8 @@ class VisDriver {
         }
 
         // Add new edges 
-        i = 0;
-        for (i; i < newEdges.length; i++) {
+        for (let i = 0; i < newEdges.length; i++) {
+            console.log("i: ", i);
 
             for (let j = 0; j < this.data["edges"].length; j++) {
 
@@ -287,6 +286,8 @@ class VisDriver {
             }
             if (exist === false)
                 this.data["edges"].push(newEdges[i]);
+                
+            exist = false;
 
         }
 
@@ -384,8 +385,7 @@ class VisDriver {
     updateNodesPosition = nodes => {
 
         // Not used: KIV
-        let i = 0;
-        for (i; i < nodes.length; i++) {
+        for (let i = 0; i < nodes.length; i++) {
 
             for (let j = 0; j < this.data["nodes"].length; j++) {
 
