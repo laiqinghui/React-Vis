@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Slider from '@material-ui/core/Slider';
 import { withStyles} from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 class DateRangeSlider extends Component {
 
@@ -15,9 +16,6 @@ class DateRangeSlider extends Component {
     componentDidMount() {
 
         console.log("[DateRangeSlider] updated")
-        console.log(this.props.minDate)
-        console.log(this.props.maxDate)
-      
 
     }
 
@@ -41,9 +39,9 @@ class DateRangeSlider extends Component {
 
     }
 
-    iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
+    customBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
 
-    IOSSlider = withStyles({
+    CustomSlider = withStyles({
         root: {
           color: '#000',
           height: 2,
@@ -53,14 +51,14 @@ class DateRangeSlider extends Component {
           height: 28,
           width: 28,
           backgroundColor: '#fff',
-          boxShadow: this.iOSBoxShadow,
+          boxShadow: this.customBoxShadow,
           marginTop: -14,
           marginLeft: -14,
           '&:focus, &:hover, &$active': {
             boxShadow: '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
             // Reset on touch devices, it doesn't add specificity
             '@media (hover: none)': {
-              boxShadow: this.iOSBoxShadow,
+              boxShadow: this.customBoxShadow,
             },
           },
         },
@@ -110,20 +108,32 @@ class DateRangeSlider extends Component {
     
     render() {
 
-        let IOSSlider = this.IOSSlider; 
+        let CustomSlider = this.CustomSlider; 
 
         return (
 
-            <IOSSlider 
-                value={[this.state.valLeft, this.state.valRight]}
-                min={this.props.minDate.getTime()/1000}
-                max={this.props.maxDate.getTime()/1000}
-                step={this.props.step}
-                onChange={this.sliderChangeHandler}
-                valueLabelDisplay="on"
-                valueLabelFormat={seconds => this.labelFormatter(seconds) }
-                aria-labelledby="range-slider"
-            />
+
+            <Paper 
+                elevation={2} 
+                style={{width: "100%", height: "60px" }}
+            >
+                <div style={{width: "95%", margin: "0 auto", paddingTop: 20 }}>
+
+                    <CustomSlider 
+                        value={[this.state.valLeft, this.state.valRight]}
+                        min={this.props.minDate.getTime()/1000}
+                        max={this.props.maxDate.getTime()/1000}
+                        step={this.props.step}
+                        onChange={this.sliderChangeHandler}
+                        valueLabelDisplay="on"
+                        valueLabelFormat={seconds => this.labelFormatter(seconds) }
+                        aria-labelledby="range-slider"
+                        disabled = {this.props.disabled}
+                    />
+
+                </div>
+                
+            </Paper>
             
         );
 

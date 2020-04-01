@@ -3,17 +3,9 @@ import * as actionTypes from '../actions/actions';
 
 const initialState = {
 
-    selectedElement: {
-
-        id: null,
-        type: null
-
-    },
-    graphData: {
-
-        nodes: [],
-        edges: []
-
+    dateFilter: {
+        func: null,
+        arg: null
     }
     
 };
@@ -29,11 +21,11 @@ const initialState = {
 
 const reducer = createReducer(initialState, {
 
-    [actionTypes.UPDATE_SELECTED_ELEMENT]: (state, action) => {
-        state.selectedElement = action.newElement;
+    [actionTypes.UPDATE_FILTER]: (state, action) => {
+        state[action.filterKey] = action.filter;
     },
-    [actionTypes.UPDATE_GRAPH_DATA]: (state, action) => {
-        state.graphData = action.newGraphData;
+    [actionTypes.UPDATE_FILTER_ARGUMENTS]: (state, action) => {
+        state[action.filterKey]['arg'] = action.filterArguments;
     }
 
 })

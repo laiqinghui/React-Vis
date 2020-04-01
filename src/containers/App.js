@@ -7,7 +7,7 @@ import QueryInput from '../components/QueryInput/QueryInput'
 import SearchInput from '../components/SearchInput/SearchInput'
 import VisGraph from '../components/VisGraph/VisGraph'
 import DetailsCard from '../components/DetailsCard/DetailsCard'
-import Filter from './Filter'
+import DateFilter from './DateFilter'
 
 
 
@@ -87,14 +87,14 @@ class App extends Component {
                             <HeaderNavBar />
                         </Col>
                     </Row>
-                    <Row style={{width: "100%", paddingTop: "10px" }}>
+                    <Row style={{width: "100%", paddingTop: "20px" }}>
                         <Col>
                             <QueryInput
                                 submit={this.queryInputSubmitHandler}
                             />
                         </Col>
                     </Row>
-                    <Row style={{width: "100%", paddingTop: "10px" }}>
+                    <Row style={{width: "100%", paddingTop: "20px" }}>
                         <Col>
                             <SearchInput
                                 dbConnector={this.neo4jc}
@@ -102,12 +102,11 @@ class App extends Component {
                             />
                         </Col>
                     </Row>
-                    <Row style={{width: "100%", paddingTop: "10px" }}>
+                    <Row style={{width: "100%", paddingTop: "20px" }}>
                         <Col xs={9}>
                             <VisGraph
                                 dbConnector={this.neo4jc}
                                 nodeOptions={this.nodeOptions}
-                                filterFunction={null}
                                 query={this.state.query}
                             />
                         </Col>
@@ -115,9 +114,9 @@ class App extends Component {
                             <DetailsCard />
                         </Col>
                     </Row>
-                    <Row style={{width: "100%", paddingTop: "35px" }}>
+                    <Row style={{width: "100%", paddingTop: "20px" }}>
                         <Col xs={12}>
-                            <Filter/>
+                            <DateFilter/>
                         </Col>
                     </Row>
                 </Container>

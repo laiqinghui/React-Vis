@@ -17,13 +17,20 @@ class VisGraph extends Component {
 
     componentDidMount() {
 
-        this.visDriver = new visDriver(this.visRef, this.props.dbConnector, this.props.filterFunction, this.props.nodeOptions)
+        this.visDriver = new visDriver(this.visRef, this.props.dbConnector, this.props.nodeOptions)
 
     }
 
     componentDidUpdate(prevProps, prevState) {
 
         console.log("[VisGraph] updated")
+
+        if (this.props.dateFilter !== prevProps.dateFilter){
+
+            this.visDriver.setDataFilter(this.props.dateFilter);
+            this.visDriver.setFocusNode(null);
+            this.visDriver.setAndRenderGraphData();
+        }
 
         // Include this check incase there is added internal states in the future
         if (this.props.query !== prevProps.query) {
@@ -141,14 +148,13 @@ class VisGraph extends Component {
 }
 
 
-// const mapStateToProps = state => {
-//     return {
+const mapStateToProps = state => {
+    return {
 
-//         selectedElementProp: state.graph.selectedElement,
-//         graphDataProp: state.graph.graphData
+        dateFilter: state.filter.dateFilter
 
-//     }
-// };
+    }
+};
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -158,6 +164,6 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(null, mapDispatchToProps)(VisGraph);
+export default connect(mapStateToProps, mapDispatchToProps)(VisGraph);
 
 

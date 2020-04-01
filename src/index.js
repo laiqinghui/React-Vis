@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import graphReducer from './store/reducers/graphReducer';
+import filterReducer from './store/reducers/filterReducer';
 
 import './index.css';
 import App from './containers/App';
@@ -13,6 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const rootReducer = combineReducers({
     graph: graphReducer,
+    filter: filterReducer
 });
 
 const logger = store => {

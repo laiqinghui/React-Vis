@@ -4,7 +4,7 @@
 */
 class VisDriver {
 
-    constructor(visRef, dbconnector, filterFunction, nodeOptions) {
+    constructor(visRef, dbconnector, nodeOptions) {
 
         /* 
             Constructor for the VisDriver class.
@@ -13,14 +13,13 @@ class VisDriver {
                 1) viewportid (string) - HTML div ID which the canvas will be drawn.
                 2) dbconnector (object) - User specified data based connector, user will provide the implementaion of the connector logic
                 for the type of database used in the project. For decoupling of data base logic.
-                3) filterFunction (function) - Optional user defined function for the filter of data before rendering, pass in null if no filtering is required.
-                4) nodeOptions (object) - Options to define the nodes size and color according to its label
+                3) nodeOptions (object) - Options to define the nodes size and color according to its label
         */
 
         this.dbconnector = dbconnector;
         this.dataParser = dbconnector.dbToVisDataParser;
-        this.dataFilter = filterFunction;
-        this.nodeOptions = nodeOptions
+        this.nodeOptions = nodeOptions;
+        this.dataFilter = null;
         // House the state of pre-filtered data which is to be rendered
         this.data = {
             nodes: [],
@@ -108,6 +107,58 @@ class VisDriver {
 
     }// end of constructor
 
+    setFocusNode = id => {
+
+        this.focusNodeId = id;
+
+    }
+
+    calibrateGraph = duration => {
+
+        // Turn on physics for stabilization animation
+        this.network.setOptions(this.physicsOnOpt);
+
+        // setTimeout(() => {
+
+        //     this.network.setOptions(this.physicsOffOpt);
+
+
+        // }, duration)
+
+    }
+
+    focusGraph = () => {
+
+        console.log(this.focusNodeId)
+
+        if (this.focusNodeId !== null) {
+
+            
+                this.network.focus(this.focusNodeId, {
+                    scale: 1.5,
+                    locked: false,
+                    animation: {
+                        duration: 1000,
+                        easingFunction: "easeOutQuad"
+                    }
+                });
+
+                this.network.selectNodes([this.focusNodeId], true);
+
+        } else {
+
+            this.network.fit({
+                animation: {
+                    duration: 500,
+                    easingFunction: "easeOutQuad"
+                }
+            })
+
+        }
+
+
+    }
+
     clearGraph = () => {
 
         /* 
@@ -151,7 +202,7 @@ class VisDriver {
 
         if (this.dataFilter != null) {
 
-            filteredData = this.dataFilter(this.data);
+            filteredData = this.dataFilter.func(this.data, this.dataFilter.arg);
             this.network.setData(filteredData);
             // console.log("filteredData: ");
             // console.log(filteredData);
@@ -161,29 +212,8 @@ class VisDriver {
             this.network.setData(this.data);
         }
 
-        // Turn on physics for stabilization animation
-        this.network.setOptions(this.physicsOnOpt);
-
-        setTimeout(() => {
-
-            this.network.setOptions(this.physicsOffOpt);
-
-            if (this.focusNodeId !== null) {
-
-                this.network.focus(this.focusNodeId, {
-                    scale: 1.5,
-                    locked: false,
-                    animation: {
-                        duration: 1000,
-                        easingFunction: "easeOutQuad"
-                    }
-                });
-
-                this.network.selectNodes([this.focusNodeId], true);
-
-            }
-
-        }, 1000)
+        this.calibrateGraph(2000);
+        // this.focusGraph();
 
 
     }// end of setAndRenderGraphData
@@ -274,7 +304,6 @@ class VisDriver {
 
         // Add new edges 
         for (let i = 0; i < newEdges.length; i++) {
-            console.log("i: ", i);
 
             for (let j = 0; j < this.data["edges"].length; j++) {
 
@@ -291,7 +320,7 @@ class VisDriver {
 
         }
 
-        this.setAndRenderGraphData()
+        
 
         if (focusNodeId != null) {
 
@@ -305,6 +334,8 @@ class VisDriver {
             this.focusNodeId = newNodes[0].id.toString();
 
         }
+
+        this.setAndRenderGraphData()
 
     }// end of updateGraphData
 
@@ -404,6 +435,13 @@ class VisDriver {
     setNodesColorAndSize = data => {
 
 
+        /* 
+            Function to set the color and scale of the nodes by adding relevant attributes to the graph data object
+
+            Parameters:
+                1) data (object) - Graph data in vis format
+        */
+
         data.nodes.forEach((node, index, nodes) => {
 
             nodes[index].color = this.nodeOptions.nodesColorMap[node.dblabel];
@@ -412,6 +450,13 @@ class VisDriver {
         });
 
         return data;
+
+    }
+
+    setDataFilter = filter => {
+
+        this.dataFilter = filter;
+
 
     }
 }

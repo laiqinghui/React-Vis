@@ -14,3 +14,23 @@ export const updateGraphData = ( newGraphData ) => {
         newGraphData: newGraphData
     };
 };
+
+
+export const UPDATE_FILTER = 'UPDATE_FILTER';
+export const UPDATE_FILTER_ARGUMENTS = 'UPDATE_FILTER_ARGUMENTS';
+
+export const updateFilter = ( filterKey, filter ) => {
+    return {
+        type: UPDATE_FILTER,
+        filterKey: filterKey,
+        filter: filter
+    };
+};
+
+export const updateFilterArguments = ( filterKey, filterArguments) => {
+    return {
+        type: UPDATE_FILTER_ARGUMENTS,
+        filterKey: filterKey,
+        filterArguments: filterArguments
+    };
+};
