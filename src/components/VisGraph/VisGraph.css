@@ -1,0 +1,17 @@
+.CanvasInputs {
+
+    position: absolute;
+    top: 15px; 
+    right: 30px;
+
+}
+
+.CanvasInputs > * {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.CanvasInputs > *:hover {
+    opacity: .5;
+}
+

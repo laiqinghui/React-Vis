@@ -27,14 +27,16 @@ class VisDriver {
         }
         // Option to define the physics prperties if physics is turn on
         this.physicsOnOpt = {
+            
             nodes: {
+                shape: 'circle',
                 scaling: {
                     min: 1,
                     max: 3,//3
                     label: {
                         enabled: true,
                         min: 5,
-                        max: 20,
+                        max: 15,
                         maxVisible: 20,
                         drawThreshold: 5
                     },
@@ -43,7 +45,6 @@ class VisDriver {
             physics: {
                 enabled: true,
                 forceAtlas2Based: {
-                    // theta: 0.5,
                     gravitationalConstant: -50,
                     centralGravity: 0.01,
                     springConstant: 0.08,
@@ -52,19 +53,18 @@ class VisDriver {
                     avoidOverlap: 1
                 },
 
-                maxVelocity: 50,
-                minVelocity: 0.1,
+                maxVelocity: 100,
+                minVelocity: 1,
                 solver: 'forceAtlas2Based',
                 stabilization: {
                     enabled: true,
-                    iterations: 500,
-                    updateInterval: 10,
+                    iterations: 1000,
+                    updateInterval: 100,
                     onlyDynamicEdges: false,
-                    fit: false
+                    fit: true
                 },
-                timestep: 0.3,
+                timestep: 1,
                 adaptiveTimestep: true,
-                // wind: { x: 0, y: 0 }
             },
             layout: {
                 randomSeed: undefined,
@@ -104,6 +104,7 @@ class VisDriver {
         // Node id which graph should be focus on, user can set it when setting the data state
         this.focusNodeId = null;
         this.network = visRef;
+        this.turnOnPhysics(this.physicsOnOpt);
 
     }// end of constructor
 
@@ -113,23 +114,21 @@ class VisDriver {
 
     }
 
-    calibrateGraph = duration => {
+    turnOnPhysics = () => {
 
         // Turn on physics for stabilization animation
         this.network.setOptions(this.physicsOnOpt);
 
-        // setTimeout(() => {
+    }
 
-        //     this.network.setOptions(this.physicsOffOpt);
+    turnOffPhysics = () => {
 
-
-        // }, duration)
-
+        this.network.setOptions(this.physicsOffOpt);
     }
 
     focusGraph = () => {
 
-        console.log(this.focusNodeId)
+        
 
         if (this.focusNodeId !== null) {
 
@@ -144,6 +143,7 @@ class VisDriver {
                 });
 
                 this.network.selectNodes([this.focusNodeId], true);
+                console.log(this.focusNodeId)
 
         } else {
 
@@ -187,6 +187,8 @@ class VisDriver {
         let prevpositions = this.network.getPositions();
         let filteredData = null;
 
+        this.turnOnPhysics();
+
         if (prevpositions.length > 0) {
 
             // Preserve nodes coordinates for redrawing them on same position
@@ -212,8 +214,8 @@ class VisDriver {
             this.network.setData(this.data);
         }
 
-        this.calibrateGraph(2000);
-        // this.focusGraph();
+        this.focusGraph();
+        
 
 
     }// end of setAndRenderGraphData
@@ -326,6 +328,7 @@ class VisDriver {
 
             // Focus on the double-clicked node
             this.focusNodeId = focusNodeId;
+            
 
 
         } else {
@@ -363,12 +366,12 @@ class VisDriver {
                         this.focusNodeId = null;
                         this.setAndRenderGraphData();
 
-                        this.network.fit({
-                            animation: {
-                                duration: 1000,
-                                easingFunction: "linear"
-                            }
-                        });
+                        // this.network.fit({
+                        //     animation: {
+                        //         duration: 1000,
+                        //         easingFunction: "linear"
+                        //     }
+                        // });
                     })
                     .catch(errorResponse => reject(errorResponse));
 
@@ -445,7 +448,7 @@ class VisDriver {
         data.nodes.forEach((node, index, nodes) => {
 
             nodes[index].color = this.nodeOptions.nodesColorMap[node.dblabel];
-            nodes[index].value = this.nodeOptions.nodeSizeMap[node.dblabel];
+            nodes[index].value = this.nodeOptions.nodeSizeMap[node.dblabel] ? this.nodeOptions.nodeSizeMap[node.dblabel] : 25 ;
 
         });
 

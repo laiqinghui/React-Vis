@@ -63,10 +63,10 @@ class DateRangeSlider extends Component {
           },
         },
         active: {},
-        circle:{
-            width: "50px !important"    
+        // circle:{
+        //     width: "50px !important"    
 
-        },
+        // },
         valueLabel: {
           width: "50px !important",
           left: 'calc(-50% + 11px)',
@@ -124,7 +124,7 @@ class DateRangeSlider extends Component {
                         min={this.props.minDate.getTime()/1000}
                         max={this.props.maxDate.getTime()/1000}
                         step={this.props.step}
-                        onChange={this.sliderChangeHandler}
+                        onChangeCommitted={this.sliderChangeHandler}
                         valueLabelDisplay="on"
                         valueLabelFormat={seconds => this.labelFormatter(seconds) }
                         aria-labelledby="range-slider"

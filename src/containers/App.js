@@ -27,7 +27,8 @@ class App extends Component {
 
     // ---------------------------------------------User-defined parameters------------------------------------------------- 
 
-    neo4jc = new neo4jConnector("192.168.175.1", 11006, "neo4j", "password");
+    // neo4jc = new neo4jConnector("192.168.175.1", 11006, "neo4j", "password");
+    neo4jc = new neo4jConnector("192.168.1.42", 11006, "neo4j", "password");
 
     // All these will be made user configurable via UI components in the future
     nodeOptions = {
@@ -43,10 +44,10 @@ class App extends Component {
 
         nodeSizeMap: {
 
-            "T1Person": 3,
-            "T2Person": 2,
-            "T3Person": 1,
-            "MilitaryLeader": 1
+            "T1Person": 30,
+            "T2Person": 20,
+            "T3Person": 10,
+            "MilitaryLeader": 10
 
         }
 
@@ -87,14 +88,14 @@ class App extends Component {
                             <HeaderNavBar />
                         </Col>
                     </Row>
-                    <Row style={{width: "100%", paddingTop: "20px" }}>
+                    <Row style={{width: "100%", paddingTop: "15px" }}>
                         <Col>
                             <QueryInput
                                 submit={this.queryInputSubmitHandler}
                             />
                         </Col>
                     </Row>
-                    <Row style={{width: "100%", paddingTop: "20px" }}>
+                    <Row style={{width: "100%", paddingTop: "15px" }}>
                         <Col>
                             <SearchInput
                                 dbConnector={this.neo4jc}
@@ -102,7 +103,7 @@ class App extends Component {
                             />
                         </Col>
                     </Row>
-                    <Row style={{width: "100%", paddingTop: "20px" }}>
+                    <Row style={{width: "100%", paddingTop: "15px" }}>
                         <Col xs={9}>
                             <VisGraph
                                 dbConnector={this.neo4jc}
@@ -114,7 +115,7 @@ class App extends Component {
                             <DetailsCard />
                         </Col>
                     </Row>
-                    <Row style={{width: "100%", paddingTop: "20px" }}>
+                    <Row style={{width: "100%", paddingTop: "15px" }}>
                         <Col xs={12}>
                             <DateFilter/>
                         </Col>

@@ -7,7 +7,7 @@ class DetailsCard extends Component {
 
     componentDidUpdate() {
 
-        console.log("[DetailsCard] updated")
+        // console.log("[DetailsCard] updated")
 
     }
 

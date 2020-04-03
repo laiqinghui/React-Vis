@@ -125,8 +125,8 @@ class Neo4jConnector {
             convertedNodes.push({
                 id: node.id,
                 label: node.properties["name"].substr(0, 20),
-                group: nodeLabel,
                 shape: 'circle',
+                group: nodeLabel,
                 //color: nodesColorMap[nodeLabel],
                 //value: nodeSizeMap[nodeLabel],
                 name: node.properties["name"],
