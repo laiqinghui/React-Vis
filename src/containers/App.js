@@ -5,12 +5,12 @@ import Col from 'react-bootstrap/Col';
 
 import './App.css';
 import neo4jConnector from '../dbConnector/neo4jConnector';
-import HeaderNavBar from '../components/HeaderNavBar/HeaderNavBar'
-import QueryInput from '../components/QueryInput/QueryInput'
-import SearchInput from '../components/SearchInput/SearchInput'
-import VisGraph from '../components/VisGraph/VisGraph'
-import DetailsCard from '../components/DetailsCard/DetailsCard'
-import DateFilter from './DateFilter'
+import HeaderNavBar from '../components/HeaderNavBar/HeaderNavBar';
+import QueryInput from '../components/QueryInput/QueryInput';
+import SearchInput from '../components/SearchInput/SearchInput';
+import VisGraph from '../components/VisGraph/VisGraph';
+import DetailsCard from '../components/DetailsCard/DetailsCard';
+import DateFilter from './DateFilter';
 
 
 class App extends Component {
