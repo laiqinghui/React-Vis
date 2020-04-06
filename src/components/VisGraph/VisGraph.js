@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Graph from 'react-graph-vis'
-import './VisGraph.css';
-import visDriver from '../../VisDriver'
 import { cloneDeep } from 'lodash'
 import ProgressCircle from '../ProgressCircle/ProgressCircle'
 import CenterFocusWeakRoundedIcon from '@material-ui/icons/CenterFocusWeakRounded';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
+
+import './VisGraph.css';
+import visDriver from '../../VisDriver'
+
 
 
 import * as actionCreators from '../../store/actions/actions';

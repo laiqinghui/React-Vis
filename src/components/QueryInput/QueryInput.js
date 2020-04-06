@@ -15,7 +15,7 @@ const QueryInput = (props) => {
                     style={{ width: "100%" }}
                     id="filled-textarea"
                     label="Database query"
-                    placeholder="Input single/multi-line query"
+                    placeholder="Input single/multi-line query e.g. MATCH (X) RETURN X"
                     onChange = {event=>setQueryVal(event.target.value)}
                     multiline
                     rows={2}

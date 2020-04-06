@@ -104,6 +104,7 @@ class VisDriver {
         // Node id which graph should be focus on, user can set it when setting the data state
         this.focusNodeId = null;
         this.network = visRef;
+
         this.turnOnPhysics(this.physicsOnOpt);
 
     }// end of constructor
@@ -361,12 +362,6 @@ class VisDriver {
                         this.focusNodeId = null;
                         this.setAndRenderGraphData();
 
-                        // this.network.fit({
-                        //     animation: {
-                        //         duration: 1000,
-                        //         easingFunction: "linear"
-                        //     }
-                        // });
                     })
                     .catch(errorResponse => reject(errorResponse));
 
@@ -454,7 +449,6 @@ class VisDriver {
     setDataFilter = filter => {
 
         this.dataFilter = filter;
-
 
     }
 }
