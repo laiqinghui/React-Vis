@@ -27,7 +27,7 @@ class VisDriver {
         }
         // Option to define the physics prperties if physics is turn on
         this.physicsOnOpt = {
-            
+            autoResize: true,
             nodes: {
                 shape: 'circle',
                 scaling: {
@@ -46,7 +46,7 @@ class VisDriver {
                 enabled: true,
                 forceAtlas2Based: {
                     gravitationalConstant: -50,
-                    centralGravity: 0.01,
+                    centralGravity: 0.002,
                     springConstant: 0.08,
                     springLength: 500,
                     damping: 0.4,
@@ -76,7 +76,7 @@ class VisDriver {
         };// end of physics on options
         // Turn off physics
         this.physicsOffOpt = {
-
+            autoResize: true,
             nodes: {
                 scaling: {
                     min: 1,
@@ -128,11 +128,8 @@ class VisDriver {
 
     focusGraph = () => {
 
-        
-
         if (this.focusNodeId !== null) {
 
-            
                 this.network.focus(this.focusNodeId, {
                     scale: 1.5,
                     locked: false,
@@ -143,7 +140,6 @@ class VisDriver {
                 });
 
                 this.network.selectNodes([this.focusNodeId], true);
-                console.log(this.focusNodeId)
 
         } else {
 
@@ -172,6 +168,7 @@ class VisDriver {
         }
 
         this.setAndRenderGraphData();
+        return this.data;
 
     }// end of clearGraph
 
@@ -206,8 +203,6 @@ class VisDriver {
 
             filteredData = this.dataFilter.func(this.data, this.dataFilter.arg);
             this.network.setData(filteredData);
-            // console.log("filteredData: ");
-            // console.log(filteredData);
 
         } else {
 

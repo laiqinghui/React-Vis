@@ -22,8 +22,6 @@ class DetailsCard extends Component {
             return (currentEle.id === id);
         })
 
-        console.log(element)
-
         return element[0];
 
     }
@@ -32,6 +30,8 @@ class DetailsCard extends Component {
 
         let element = null;
         let content = null;
+        const nodePropsExcludeList = ["name", "dblabel", "group", "shape", "color", "value", "label", "x", "y"];
+        const edgePropsExcludeList = ["shape", "arrows"];
 
         switch (this.props.selectedElementProp.type) {
 
@@ -44,10 +44,10 @@ class DetailsCard extends Component {
                         <Card.Title>{element.name != null ? element.name : "Not Defined"}</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">{element.dblabel != null ? element.dblabel : "Not Defined"}</Card.Subtitle>
                         <ListGroup variant="flush">
-                            {Object.keys(element).map(key => 
-                            {
-                                if( key !== "name" && key !== "dblabel" && key !== "group" && key !== "shape" && key !== "color" && key !== "value" && key !== "label" && element[key] != null )
-                                    return (<ListGroup.Item key = {key}>{key + ": " + element[key]}</ListGroup.Item>);
+                            {Object.keys(element).map(key => {
+                                if (!nodePropsExcludeList.includes(key) && element[key] != null)
+                                    return (<ListGroup.Item key={key}>{key + ": " + element[key]}</ListGroup.Item>);
+                                else return null;
                             })}
                         </ListGroup>
                     </Card.Body>
@@ -64,12 +64,12 @@ class DetailsCard extends Component {
                         <Card.Title>{element.label}</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">Relationship</Card.Subtitle>
                         <ListGroup variant="flush">
-                            {Object.keys(element).map(key => 
-                            {
+                            {Object.keys(element).map(key => {
                                 if (key === "from" || key === "to")
-                                    return (<ListGroup.Item key = {key}>{key + ": " + this.getElementFromID(element[key], "nodes").name}</ListGroup.Item>);
-                                else if(key !== "shape" && key !== "arrows" && element[key] != null )
-                                    return (<ListGroup.Item key = {key}>{key + ": " + element[key]}</ListGroup.Item>);
+                                    return (<ListGroup.Item key={key}>{key + ": " + this.getElementFromID(element[key], "nodes").name}</ListGroup.Item>);
+                                else if (!edgePropsExcludeList.includes(key) && element[key] != null)
+                                    return (<ListGroup.Item key={key}>{key + ": " + element[key]}</ListGroup.Item>);
+                                else return null;
                             })}
                         </ListGroup>
                     </Card.Body>

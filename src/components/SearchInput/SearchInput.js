@@ -46,14 +46,11 @@ class SearchInput extends Component {
 
         }
 
-       
-
 
     }
 
     optOnSelectHandler = (event, value) => {
 
-        console.log("Selected: " + value);
         if (value != null)
             this.props.select(value["id(node)"]);
 
@@ -81,6 +78,7 @@ class SearchInput extends Component {
                     <TextField
                         {...params}
                         label="Search by node name"
+                        placeholder="Input name property of nodes which is indexed for full-text search"
                         variant="outlined"
                         onChange={this.textChangeHandler}
                         InputProps={{

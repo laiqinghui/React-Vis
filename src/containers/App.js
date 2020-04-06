@@ -69,8 +69,6 @@ class App extends Component {
 
     searchInputSelectHandler = id => {
 
-        console.log("searchInputSelectHandler: ", id)
-
         let query = {
             queryStatement: this.neo4jc.genQueryStatementByID(id, false),
             type: "update"

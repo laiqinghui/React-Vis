@@ -45,13 +45,13 @@ class VisGraph extends Component {
 
                 this.visDriver.reloadGraph(this.props.query.queryStatement)
                     .then(graphData => {
-                        console.log("Reloaded!")
+        
                         this.props.updategraphDataState(graphData);
 
                     })
                     .catch(errorResponse => {
 
-                        console.log("Failed in connecting to database")
+                        console.log("Database error.")
                         console.log(errorResponse)
 
                     })
@@ -60,13 +60,13 @@ class VisGraph extends Component {
 
                 this.visDriver.updateGraph(this.props.query.queryStatement, null)
                     .then(graphData => {
-                        console.log("Updated!")
+    
                         this.props.updategraphDataState(graphData);
 
                     })
                     .catch(errorResponse => {
 
-                        console.log("Failed in connecting to database")
+                        console.log("Database error.")
                         console.log(errorResponse)
 
                     })
@@ -81,19 +81,25 @@ class VisGraph extends Component {
     focusIconHandler = () => {
 
         this.visDriver.turnOnPhysics(this.physicsOnOpt);
+        // Need to manually trigger stabilize because data never change
+        this.visDriver.network.stabilize();
         this.visDriver.focusGraph();
 
     }
 
     clearGraphIconHandler = () => {
 
-        this.visDriver.clearGraph();
-
+        let graphData = this.visDriver.clearGraph();
+        this.props.updategraphDataState(graphData);
+        this.props.updateSelectedElementState({
+            id: null,
+            type: null
+        })
+        
     }
 
     events = {
         select: event => {
-            console.log("Selected!");
 
             let { nodes, edges } = event;
 
@@ -103,6 +109,8 @@ class VisGraph extends Component {
                     id: nodes[0],
                     type: "node"
                 })
+
+                this.visDriver.setFocusNode(nodes[0]);
 
             } else if (edges.length > 0) {
 
@@ -127,7 +135,7 @@ class VisGraph extends Component {
             if (nodes.length > 0) {
 
                 let query = this.props.dbConnector.genQueryStatementByID(nodes[0], true);
-                // this.visDriver.turnOnPhysics();
+
                 this.visDriver.updateGraph(query, nodes[0]).then(graphData => {
 
                     this.props.updategraphDataState(graphData);
@@ -135,7 +143,7 @@ class VisGraph extends Component {
                 })
                     .catch(errorResponse => {
 
-                        console.log("Failed in connecting to database")
+                        console.log("Database Error:")
                         console.log(errorResponse)
 
                     })
@@ -144,7 +152,7 @@ class VisGraph extends Component {
 
         },
         stabilizationProgress: event => {
-            // console.log("stabilizationProgress: " + event.iterations + "/" + event.total);
+
             this.setState({ stabilizedPercentage: Math.round((event.iterations / event.total) * 100) });
             if (event.iterations === event.total) {
 

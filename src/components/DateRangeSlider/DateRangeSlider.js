@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 
 class DateRangeSlider extends Component {
 
+    sliderRef = React.createRef();
 
     state = {
 
@@ -63,18 +64,16 @@ class DateRangeSlider extends Component {
           },
         },
         active: {},
-        // circle:{
-        //     width: "50px !important"    
 
-        // },
         valueLabel: {
-          width: "50px !important",
-          left: 'calc(-50% + 11px)',
-          top: -22,
+          
+          left: 'calc(-50%)',
+          top: -15,
           fontSize: '10px',
           '& *': {
             background: 'transparent',
             color: '#000',
+            width: "55px !important",
           },
         },
         track: {
@@ -100,7 +99,6 @@ class DateRangeSlider extends Component {
       labelFormatter = seconds => {
 
         let date = new Date(seconds*1000)
-        //console.log(date.toDateString())
         return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
 
       }
@@ -117,7 +115,7 @@ class DateRangeSlider extends Component {
                 elevation={2} 
                 style={{width: "100%", height: "60px" }}
             >
-                <div style={{width: "95%", margin: "0 auto", paddingTop: 20 }}>
+                <div style={{width: "92%", margin: "0 auto", paddingTop: 20 }}>
 
                     <CustomSlider 
                         value={[this.state.valLeft, this.state.valRight]}
@@ -128,7 +126,6 @@ class DateRangeSlider extends Component {
                         valueLabelDisplay="on"
                         valueLabelFormat={seconds => this.labelFormatter(seconds) }
                         aria-labelledby="range-slider"
-                        disabled = {this.props.disabled}
                     />
 
                 </div>

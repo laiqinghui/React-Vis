@@ -7,10 +7,31 @@ import DateRangeSlider from '../components/DateRangeSlider/DateRangeSlider'
 
 class DateFilter extends Component {
 
+    dateFilterComponentref = null;
 
-    componentDidUpdate() {
+    state = {
 
-        console.log("[Filter] updated")
+        currentMinMaxDate: null
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+
+        console.log("[Filter] updated");
+
+        if (this.props.graphDataProp !== prevProps.graphDataProp) {
+
+            let currentMinMaxDate = this.getMinMaxDate(this.props.graphDataProp);
+            this.setState({ currentMinMaxDate: currentMinMaxDate });
+
+        }
+
+        if (this.dateFilterComponentref !== null) {
+
+            this.dateFilterComponentref.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
+        }
+
 
     }
 
@@ -116,7 +137,7 @@ class DateFilter extends Component {
         let baseNodes = data.nodes;
         let baseEdges = data.edges;
 
-        baseNodes.forEach( node => {
+        baseNodes.forEach(node => {
 
             if (node.term_start !== "") {
 
@@ -148,7 +169,7 @@ class DateFilter extends Component {
 
         })
 
-        baseEdges.forEach( edge => {
+        baseEdges.forEach(edge => {
 
             if (edge.term_start !== "") {
 
@@ -187,26 +208,23 @@ class DateFilter extends Component {
 
     render() {
 
-        let currentMinMaxDate = this.getMinMaxDate(this.props.graphDataProp);
         let content = null;
 
-        if (currentMinMaxDate !== null) {
+        if (this.state.currentMinMaxDate !== null) {
 
             content = (
-
-                <DateRangeSlider
-                    minDate={currentMinMaxDate ? currentMinMaxDate.min : new Date("1970-01-01")}
-                    maxDate={currentMinMaxDate ? currentMinMaxDate.max : new Date()}
-                    step={24 * 60 * 60}
-                    default={{ left: currentMinMaxDate ? currentMinMaxDate.min : new Date("1970-01-01"), right: currentMinMaxDate ? currentMinMaxDate.max : new Date() }}
-                    change={this.sliderChange}
-                    disabled={currentMinMaxDate === null ? true : false}
-                />
-
+                <div ref={ref => this.dateFilterComponentref = ref}>
+                    <DateRangeSlider
+                        minDate={this.state.currentMinMaxDate.min}
+                        maxDate={this.state.currentMinMaxDate.max}
+                        step={24 * 60 * 60}
+                        default={{ left: this.state.currentMinMaxDate.min, right: this.state.currentMinMaxDate.max }}
+                        change={this.sliderChange}
+                    />
+                </div>
             )
 
         }
-
         return content;
     }
 }
