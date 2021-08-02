@@ -10,8 +10,6 @@ import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import './VisGraph.css';
 import visDriver from '../../VisDriver'
 
-
-
 import * as actionCreators from '../../store/actions/actions';
 
 

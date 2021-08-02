@@ -51,7 +51,7 @@ class App extends Component {
             //    .
             //    .
             //    .
-            "EntityN": "#1hb4a6",
+            "EntityN": 40,
 
         }
 

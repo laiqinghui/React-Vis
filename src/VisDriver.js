@@ -1,6 +1,6 @@
 //--------------------------------------------------Vis Driver Class--------------------------------------------------------------------
 /*
-    This class handles all the logic that bridges user applications and user defined data base to Vis.js
+    This class handles all the logic that bridges user applications and user defined database to Vis.js
 */
 class VisDriver {
 
@@ -10,7 +10,7 @@ class VisDriver {
             Constructor for the VisDriver class.
 
             Parameters:
-                1) viewportid (string) - HTML div ID which the canvas will be drawn.
+                1) visRef (object) - reference to the vis.js object
                 2) dbconnector (object) - User specified data based connector, user will provide the implementaion of the connector logic
                 for the type of database used in the project. For decoupling of data base logic.
                 3) nodeOptions (object) - Options to define the nodes size and color according to its label
