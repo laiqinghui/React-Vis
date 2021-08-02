@@ -125,10 +125,7 @@ class Neo4jConnector {
             convertedNodes.push({
                 id: node.id,
                 label: node.properties["name"].substr(0, 20),
-                shape: 'circle',
                 group: nodeLabel,
-                //color: nodesColorMap[nodeLabel],
-                //value: nodeSizeMap[nodeLabel],
                 name: node.properties["name"],
                 dblabel: nodeLabel,
                 term_start: "term_start" in node.properties ? node.properties.term_start : "",

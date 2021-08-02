@@ -26,26 +26,32 @@ class App extends Component {
     // ---------------------------------------------User-defined parameters------------------------------------------------- 
 
     // neo4jc = new neo4jConnector("192.168.175.1", 11006, "neo4j", "password");
-    neo4jc = new neo4jConnector("192.168.1.42", 11006, "neo4j", "password");
+    neo4jc = new neo4jConnector("localhost", 7474, "neo4j", "test");
 
     // All these will be made user configurable via UI components in the future
     nodeOptions = {
 
         nodesColorMap: {
 
-            "T1Person": "#f76a8c",
-            "T2Person": "#a6b1e1",
-            "T3Person": "#1eb2a6",
-            "MilitaryLeader": "#a7e9af"
+            "Entity1": "#f76a8c",
+            "Entity2": "#a6b1e1",
+            "Entity3": "#1eb2a6",
+            //    .
+            //    .
+            //    .
+            "EntityN": "#1hb4a6",
 
         },
 
         nodeSizeMap: {
 
-            "T1Person": 30,
-            "T2Person": 20,
-            "T3Person": 10,
-            "MilitaryLeader": 10
+            "Entity1": 100,
+            "Entity2": 80,
+            "Entity3": 60,
+            //    .
+            //    .
+            //    .
+            "EntityN": "#1hb4a6",
 
         }
 

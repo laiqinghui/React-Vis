@@ -11,6 +11,12 @@
     height: 40px !important;
 }
 
+.fullscreenIcon {
+    width: 50px !important;
+    height: 50px !important;
+    margin-left: -5px;
+}
+
 .CanvasInputs > *:hover {
     opacity: .5;
 }

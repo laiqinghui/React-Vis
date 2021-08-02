@@ -30,7 +30,7 @@ class DetailsCard extends Component {
 
         let element = null;
         let content = null;
-        const nodePropsExcludeList = ["name", "dblabel", "group", "shape", "color", "value", "label", "x", "y"];
+        const nodePropsExcludeList = ["name", "dblabel", "group", "shape", "color", "value", "label", "x", "y", "term_start", "term_end"];
         const edgePropsExcludeList = ["shape", "arrows"];
 
         switch (this.props.selectedElementProp.type) {

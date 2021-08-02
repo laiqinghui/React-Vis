@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash'
 import ProgressCircle from '../ProgressCircle/ProgressCircle'
 import CenterFocusWeakRoundedIcon from '@material-ui/icons/CenterFocusWeakRounded';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
 
 import './VisGraph.css';
 import visDriver from '../../VisDriver'
@@ -26,6 +27,16 @@ class VisGraph extends Component {
     componentDidMount() {
 
         this.visDriver = new visDriver(this.visRef, this.props.dbConnector, this.props.nodeOptions)
+        let networkfullscreen = document.getElementById("canvas").childNodes[0]; 
+        console.log("networkfullscreen: ")
+        console.log(networkfullscreen)
+        document.addEventListener('webkitfullscreenchange', function() {
+            if (document.webkitIsFullScreen === false)
+          {
+            // networkfullscreen.style = 'display: none';
+          }
+        
+        }, false);
 
     }
 
@@ -79,6 +90,27 @@ class VisGraph extends Component {
         }
 
     }
+
+    fullScreenHandler = () => {
+        // let networkfullscreen = this.visRef;
+        let networkfullscreen = document.getElementById("canvas").childNodes[0]; 
+
+        if (!document.mozFullScreen && !document.webkitFullScreen) { 
+            if (networkfullscreen.mozRequestFullScreen) { 
+              networkfullscreen.mozRequestFullScreen(); 
+          } else { 
+              networkfullscreen.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT); 
+          } 
+        } else { 
+            if (document.mozCancelFullScreen) { 
+              document.mozCancelFullScreen(); 
+          } else { 
+              document.webkitCancelFullScreen();
+          } 
+        }  
+    }
+
+    
 
     focusIconHandler = () => {
 
@@ -176,7 +208,7 @@ class VisGraph extends Component {
 
     render() {
         return (
-            <div>
+            <div id="canvas">
 
                 <Graph
                     graph={{
@@ -195,6 +227,7 @@ class VisGraph extends Component {
                 <div className = {"CanvasInputs"}>
                     <CenterFocusWeakRoundedIcon onClick={this.focusIconHandler} color={"disabled"} />
                     <DeleteForeverRoundedIcon onClick={this.clearGraphIconHandler} color={"disabled"} />
+                    <FullscreenIcon className="fullscreenIcon" onClick={this.fullScreenHandler} color={"disabled"} />
                 </div>
 
                 {

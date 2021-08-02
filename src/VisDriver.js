@@ -29,18 +29,7 @@ class VisDriver {
         this.physicsOnOpt = {
             autoResize: true,
             nodes: {
-                shape: 'circle',
-                scaling: {
-                    min: 1,
-                    max: 3,//3
-                    label: {
-                        enabled: true,
-                        min: 5,
-                        max: 15,
-                        maxVisible: 20,
-                        drawThreshold: 5
-                    },
-                }
+                shape: 'dot',
             },
             physics: {
                 enabled: true,
@@ -70,7 +59,13 @@ class VisDriver {
                 randomSeed: undefined,
                 improvedLayout: true,
                 clusterThreshold: 150
-            }
+            },
+            // configure: {
+            //     enabled: true,
+            //     filter: 'nodes,edges',
+            //     container: undefined,
+            //     showButton: true
+            // }
 
 
         };// end of physics on options
@@ -78,17 +73,6 @@ class VisDriver {
         this.physicsOffOpt = {
             autoResize: true,
             nodes: {
-                scaling: {
-                    min: 1,
-                    max: 3,
-                    label: {
-                        enabled: true,
-                        min: 4,
-                        max: 10,
-                        maxVisible: 10,
-                        drawThreshold: 5
-                    },
-                }
             },
             physics: {
                 enabled: false,
@@ -439,6 +423,7 @@ class VisDriver {
 
             nodes[index].color = this.nodeOptions.nodesColorMap[node.dblabel];
             nodes[index].value = this.nodeOptions.nodeSizeMap[node.dblabel] ? this.nodeOptions.nodeSizeMap[node.dblabel] : 25 ;
+            nodes[index].size = this.nodeOptions.nodeSizeMap[node.dblabel] ? this.nodeOptions.nodeSizeMap[node.dblabel] : 25 ;
 
         });
 
